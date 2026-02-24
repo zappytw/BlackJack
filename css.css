@@ -1,0 +1,65 @@
+body{
+    background: #11ff00;
+    background: linear-gradient(0deg, rgba(17, 255, 0, 1) 0%, rgba(0, 122, 6, 1) 100%);
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+img{
+    width: 100px;
+    height: auto;
+}
+button{
+    width: 113px;
+    height: 50px;
+}
+
+#playingHand, #dealerHand{
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    width: 100%;
+}
+
+#table {
+    display: grid;
+    grid-template-rows: 1fr 2fr 2fr 1fr;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+#userHud, #dealerHud{
+    justify-self: center;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 400px;
+}
+#dealerValueDisplay{
+    grid-column: 1/3;
+    justify-self: center;
+}
+#userValueDisplay{
+    grid-column: 1/3;
+    justify-self: center;
+}
+
+p{
+    font-family: "Geist", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+}
