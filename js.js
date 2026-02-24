@@ -3,6 +3,23 @@ let deck;
 let userValue = 0;
 let dealerValue = 0;
 let dealerCards = [];
+let userAceCount = 0
+let dealerAceCount = 0
+let hitButtonStatus = {"isclickable": true}
+let standButtonStatus = {"isclickable": true}
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const hitButton = document.getElementById("hitButton")
+const standButton = document.getElementById("standButton")
+const resetButton = document.getElementById("resetButton")
+
+const playingHand = document.getElementById("playingHand")
+const userValueDisplay = document.getElementById("userValueDisplay")
+
+const dealerHand = document.getElementById("dealerHand")
+const dealerValueDisplay = document.getElementById("dealerValueDisplay")
+
 async function generateDeck() {
     let response = await fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
     let responsejson = await response.json();
@@ -22,17 +39,19 @@ async function addCard(op) {
         cardValue = Number(cardValue)
     } else {
         if(cardValue === "ACE"){
-            if(userValue+11<22){
-                cardValue = 11
+            if(op === 1){
+                userAceCount += 1
+                    cardValue = 11
             } else {
-                cardValue = 1
+                dealerAceCount += 1
+                cardValue = 11
             }
         } else {
             cardValue = 10;
-        }}
-
+        }
+    }
     let cardImg = document.createElement("img")
-    cardImg.src = await card.cards[0].images.png
+    cardImg.src = card.cards[0].images.png
 
     if(op === 1){ //1 es para user
         userValue += cardValue
@@ -54,6 +73,17 @@ async function addCard(op) {
 }
 
 async function initGame(){
+    hideReset();
+    dealerCards = []
+    hitButtonStatus.isclickable = true
+    standButtonStatus.isclickable = true
+    dealerAceCount= 0
+    userAceCount= 0
+    dealerValue = 0
+    userValue = 0
+    dealerHand.innerHTML=""
+    playingHand.innerHTML=""
+
     await generateDeck();
     
     await addCard(1)
@@ -63,6 +93,9 @@ async function initGame(){
     await addCard(2)
 }
 function endGame(){
+    showReset();
+    hitButtonStatus.isclickable = false
+    standButtonStatus.isclickable = false
     if(userValue>dealerValue){
         userValueDisplay.textContent="You Win!!"
     } else if(userValue<dealerValue){
@@ -70,42 +103,79 @@ function endGame(){
     } else {
         userValueDisplay.textContent="It's a Draw!!"
     }
+
 }
 async function dealerTurn(){
     while(dealerValue<=16){
         await addCard(2);
+        if(dealerValue>21){
+            if(dealerAceCount>0){
+                dealerValue-= 10
+                dealerAceCount-=1
+            }
+        }
+        await sleep(200)
     }
+    await sleep(200)
     if(dealerValue>16){
         dealerHand.innerHTML=""
         for (const card of dealerCards){
             let cardImg = document.createElement("img")
-            cardImg.src = await card.cards[0].images.png
+            cardImg.src = card.cards[0].images.png
             dealerHand.append(cardImg)
         }
+    }
     dealerValueDisplay.textContent="Value: " + dealerValue
     if(dealerValue>21){
-        userValueDisplay.textContent="Dealer busted! You Win!!"
+            showReset();
+            userValueDisplay.textContent="Dealer busted! You Win!!"
+            hitButtonStatus.isclickable = false
+            standButtonStatus.isclickable = false
     } else {
         endGame();
     }
     }
+
+function showReset() {
+    resetButton.style.opacity="1"
+    resetButton.style.display="block"
+    resetButton.style.pointerEvents="all"
 }
-const hitButton = document.getElementById("hitButton")
-const standButton = document.getElementById("standButton")
-
-const playingHand = document.getElementById("playingHand")
-const userValueDisplay = document.getElementById("userValueDisplay")
-
-const dealerHand = document.getElementById("dealerHand")
-const dealerValueDisplay = document.getElementById("dealerValueDisplay")
-
+function hideReset() {
+    resetButton.style.opacity="0"
+    resetButton.style.display="none"
+    resetButton.style.pointerEvents="none"
+}
 hitButton.addEventListener("click", async () =>{
+    if (hitButtonStatus.isclickable === true){
     await addCard(1);
     if(userValue>21){
-        userValueDisplay.textContent="You are over 21! You're Busted"
+        while (userValue>21){
+            if(userAceCount>0){
+                userValue-=10
+                userAceCount-=1
+                userValueDisplay.textContent="Value: " + userValue
+            } else {
+                showReset();
+                userValueDisplay.textContent="You are over 21! You're Busted"
+                hitButtonStatus.isclickable = false
+                standButtonStatus.isclickable = false
+                break
+            }
+        }
     }
+}
 })
 
 standButton.addEventListener("click", async () =>{
-    dealerTurn()
+    if (standButtonStatus.isclickable === true){
+        hitButtonStatus.isclickable = false
+        standButtonStatus.isclickable = false
+        dealerTurn()
+        
+    }
+})
+
+resetButton.addEventListener("click", () =>{
+    initGame();
 })
