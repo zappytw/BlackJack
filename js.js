@@ -22,8 +22,11 @@ async function addCard(op) {
         cardValue = Number(cardValue)
     } else {
         if(cardValue === "ACE"){
-            cardValue = 1
-
+            if(userValue+11<22){
+                cardValue = 11
+            } else {
+                cardValue = 1
+            }
         } else {
             cardValue = 10;
         }}
