@@ -59,10 +59,32 @@ async function initGame(){
     await addCard(0)
     await addCard(2)
 }
-
-function dealerTurn(){
-    while(dealerValue<16){
-        addCard(2);
+function endGame(){
+    if(userValue>dealerValue){
+        userValueDisplay.textContent="You Win!!"
+    } else if(userValue<dealerValue){
+        userValueDisplay.textContent="You Lose!!"
+    } else {
+        userValueDisplay.textContent="It's a Draw!!"
+    }
+}
+async function dealerTurn(){
+    while(dealerValue<=16){
+        await addCard(2);
+    }
+    if(dealerValue>16){
+        dealerHand.innerHTML=""
+        for (const card of dealerCards){
+            let cardImg = document.createElement("img")
+            cardImg.src = await card.cards[0].images.png
+            dealerHand.append(cardImg)
+        }
+    dealerValueDisplay.textContent="Value: " + dealerValue
+    if(dealerValue>21){
+        userValueDisplay.textContent="Dealer busted! You Win!!"
+    } else {
+        endGame();
+    }
     }
 }
 const hitButton = document.getElementById("hitButton")
