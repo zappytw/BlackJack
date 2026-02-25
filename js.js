@@ -173,7 +173,7 @@ standButton.addEventListener("click", async () =>{
     if (standButtonStatus.isclickable === true){
         hitButtonStatus.isclickable = false
         standButtonStatus.isclickable = false
-        dealerTurn()
+        await dealerTurn()
         
     }
 })

@@ -99,6 +99,7 @@ p{
         transform: translateX(-800px);
     }
     100%{
-        transform: translateY(0px) rotate(360deg);
+        transform: translateX(0px) rotate(360deg);
     }
 }
+
