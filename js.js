@@ -51,6 +51,7 @@ async function addCard(op) {
         }
     }
     let cardImg = document.createElement("img")
+    cardImg.classList.add("card")
     cardImg.src = card.cards[0].images.png
 
     if(op === 1){ //1 es para user
@@ -106,7 +107,7 @@ function endGame(){
 
 }
 async function dealerTurn(){
-    while(dealerValue<=16){
+    while(dealerValue<=16 || (dealerValue === 17 && dealerAceCount > 0)){
         await addCard(2);
         if(dealerValue>21){
             if(dealerAceCount>0){
@@ -121,6 +122,7 @@ async function dealerTurn(){
         dealerHand.innerHTML=""
         for (const card of dealerCards){
             let cardImg = document.createElement("img")
+            cardImg.classList.add("card")
             cardImg.src = card.cards[0].images.png
             dealerHand.append(cardImg)
         }
