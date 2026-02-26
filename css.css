@@ -129,3 +129,43 @@ p{
     transform: translateY(1px);
     box-shadow: 0 2px 0px rgba(0, 0, 0, 0.5);
 }
+
+.currencyDiv{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    border-top: 10px solid transparent;
+    border-right: 10px solid transparent;
+    height: 60px;
+    border-top-right-radius: 20px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(rgb(65, 31, 0), rgb(65, 31, 0)) padding-box,
+        linear-gradient(to right, rgb(255, 251, 0), rgb(121, 55, 0)) border-box;
+    box-shadow: 0px 20px 30px 5px black;
+
+}
+
+.coinIcon{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(94, 45, 0);
+    border-radius: 30px;
+    border: 8px solid rgb(255, 183, 0);
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 183, 0);
+}
+#coinCount{
+    color: rgb(255, 187, 0);
+    text-shadow: 0 0 5px rgb(0, 0, 0);
+    font-size: 25px;
+}
+.coinIcon p {
+    font-size: 40px;
+    font-weight: 600;
+    left: 10px;
+}
