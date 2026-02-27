@@ -47,7 +47,8 @@ button{
 
 #dealerHud{
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr; 
+    grid-template-rows: 1fr;
+    height: fit-content ;
 }
 #userHud{
     grid-template-columns: 1fr 1fr;
@@ -78,7 +79,22 @@ p{
     opacity: 0;
     pointer-events: none;
     display: none;
+    z-index: 1;
+    border-radius: 50px;
+    background-color: gold;
+    border: 4px solid gold;
+    box-shadow: 0 0 10px gold;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+    transition: cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s ;
+}
 
+#resetButton:hover{
+    transform: translateY(-10px);
+}
+.resetButtonFall{
+    
 }
 
 
@@ -168,4 +184,10 @@ p{
     font-size: 40px;
     font-weight: 600;
     left: 10px;
+}
+
+@media (min-height: 600px) { 
+    #table{
+        grid-template-rows: auto auto auto auto;
+    }
 }
